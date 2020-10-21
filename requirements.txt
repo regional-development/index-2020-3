@@ -1,0 +1,15 @@
+# local package
+-e .
+
+# external requirements
+python-dotenv
+numpy
+pandas
+scipy
+matplotlib
+seaborn
+psycopg2
+xlrd
+openpyxl
+sqlalchemy
+jupyterlab
