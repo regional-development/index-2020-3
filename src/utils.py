@@ -56,7 +56,7 @@ def merge_all(data, on, return_all_regions=True):
     all_regions = df.append(pd.DataFrame(REGIONS))
     return (
         all_regions
-        .assign(order=all_regions["region"].map(REGION_MAP))
+        .assign(order=all_regions["region"].map(REGIONS_MAP))
         .drop_duplicates("region")
         .sort_values("order")
         .drop("order", axis=1)
@@ -206,7 +206,7 @@ def normalize_parameter(
 
 
 
-def save_data(sources, weights, parameter):
+def save_data(sources, weights, parameter, show_results=False):
     """ Розраховує оцінку галузевого параметру 
     
     
@@ -236,3 +236,5 @@ def save_data(sources, weights, parameter):
     columns = df.loc[:, df.columns.str.contains("p")].columns
     df[parameter] = weighted_average(df, columns, weights, multiplier=10)
     df.to_csv(PATH_PROCESSED / f"{parameter}.csv", index=False)
+    if show_results:
+        return df
