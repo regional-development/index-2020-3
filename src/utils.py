@@ -133,16 +133,17 @@ def normalize_parameter(
     fill_na : bool
         NaN policy: заповнюємо порожні значення нулями (True) або ні (False)
     min_bound, max_bound : Any (None, int, float)
-        Задані нижня та верхні межі параметрів 
+        Задані нижня та верхні межі параметрів. 
         За замовченням - мінімальні та максимальні значення колонки. 
-        Приклад: якщо ми хочемо порівняти наявність генеральних планів у селах 
-                 і за найкращий показник свідомо беремо 100%, але в жодній з 
-                 областей такого показника немає, ми вручну встановлюємо 
-                 верхню межу як 100% замість максимального значення по областях
+        `Приклад`: якщо ми хочемо порівняти наявність генеральних планів у селах 
+        і за найкращий показник свідомо беремо 100%, але в жодній з 
+        областей такого показника немає, ми вручну встановлюємо 
+        верхню межу як 100% замість максимального значення по областях
     feature_range : tuple (min, max), default=(0, 1)
         Шкала, в межах якої трансформуємо дані [мінімальне, максимальне]
     reverse : bool
         Спосіб нормалізації
+
 
     Examples
     --------
@@ -190,19 +191,18 @@ def normalize_parameter(
     dtype: float64
     """
     s = array.fillna(0) if fill_na else array
-    array_min, array_max = s.min(), s.max()
+    array_min, array_max = array_bounds = s.min(), s.max()
     if min_bound is None:
         min_bound = array_min
     if max_bound is None:
         max_bound = array_max
+    if reverse:
+        min_bound, max_bound = max_bound, min_bound
         
-    array_bounds = (array_min, array_max)
     normalization_bounds = (min_bound, max_bound)
-    print(f"{feature_range=}; {fill_na=}; {array_bounds=}; {normalization_bounds=}")
-
     feature_min, feature_max = feature_range
-    min_max_normalization = feature_min + ((s - min_bound) * (feature_max - feature_min) / (max_bound - min_bound))
-    return 1 - min_max_normalization if reverse else min_max_normalization
+    print(f"{feature_range=}; {fill_na=}; {array_bounds=}; {normalization_bounds=}, {reverse=}")
+    return feature_min + ((s - min_bound) * (feature_max - feature_min) / (max_bound - min_bound))
 
 
 
