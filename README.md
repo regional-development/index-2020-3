@@ -1,6 +1,7 @@
 Індекс діяльності ОДА (3 квартал 2020 року):
 ==============================
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/regional-development/index-2020-3/main)
+[![RTD](https://readthedocs.org/projects/index-2020-3/badge/?version=latest)](https://index-2020-3.readthedocs.io/)
 
 ## Table of Contents
 + [Важливі посилання](#links)
