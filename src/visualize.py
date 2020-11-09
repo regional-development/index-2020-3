@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 from matplotlib import rcParams, gridspec
 from math import ceil, pi
-from utils import ROOT
+from .utils import ROOT
 
 
 MAX_PARAMS = 10
