@@ -73,7 +73,7 @@
 Нормалізація
 ^^^^^^^^^^^^
 
-.. image:: https://wikimedia.org/api/rest_v1/media/math/render/svg/73032b45bffd5e5140483fbe1ed49bf174f1962d
+.. image:: ../images/norm.svg
     :width: 400 px
     :alt: min-max normalization
     :align: center
