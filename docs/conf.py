@@ -22,7 +22,6 @@ sys.path.insert(0, os.path.abspath('..'))
 
 project = 'index-2020-3'
 copyright = '2020'
-author = ''
 
 release = '0.5'
 
@@ -34,6 +33,7 @@ release = '0.5'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
+    'sphinx.ext.viewcode',
     'sphinx_rtd_theme'
 ]
 
