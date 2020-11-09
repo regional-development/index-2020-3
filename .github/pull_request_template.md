@@ -1,5 +1,5 @@
 ### Чек ліст для pull request
-Прогляньте [guidelines for contributing](./CONTRIBUTING.md).
+Прогляньте [guidelines for contributing](./CONTRIBUTING.rst).
 
 - [ ] Переконайтеся, щоб прикріплюєте (compare) **topic/feature/bugfix branch**, не *main*! *(справа)* 
 - [ ] Переконайтеся, що пропонуєте зміни до (base) **main branch** *(зліва)*.

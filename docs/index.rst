@@ -3,18 +3,32 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to oda index's documentation!
-=====================================
+Індекс оцінки діяльності ОДА (3 квартал 2020 року)
+==================================================
+
+Короткий аутлайн документації. 
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Про індекс:
+
+   writings/intro.rst
+   writings/methodology.rst
+   writings/results.rst
+   writings/contacts.rst
+
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Технічна документація (АРІ):
+   
+   writings/installation.rst
+   writings/CONTRIBUTING.rst
+   source/src.rst
 
-   source/modules.rst
 
 
-
-Indices and tables
+Словник
 ==================
 
 * :ref:`genindex`

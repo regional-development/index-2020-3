@@ -20,10 +20,11 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'oda index'
+project = 'index-2020-3'
 copyright = '2020'
 author = ''
 
+release = '0.5'
 
 # -- General configuration ---------------------------------------------------
 
@@ -35,6 +36,8 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx_rtd_theme'
 ]
+
+language = 'uk_UA'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

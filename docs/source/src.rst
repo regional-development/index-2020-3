@@ -1,3 +1,5 @@
+.. _sourcecode:
+
 src package
 ===========
 

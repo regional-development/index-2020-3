@@ -5,7 +5,7 @@
 ## Table of Contents
 + [Важливі посилання](#links)
 + [Відтворення](#getting_started)
-+ [Як долучитись (contributing)](.github/CONTRIBUTING.md)
++ [Як долучитись (contributing)](.github/CONTRIBUTING.rst)
 
 ## Важливі посилання <a name = "links"></a>
 
