@@ -13,3 +13,5 @@ xlrd
 openpyxl
 sqlalchemy
 jupyterlab
+sphinx
+sphinx-rtd-theme
