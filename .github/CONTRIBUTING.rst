@@ -14,7 +14,7 @@ Contributing Guide
 -----------------------
 
 - Fork the repo
-  - <https://github.com/hp0404/template/fork>
+  - <https://github.com/regional-development/index-2020-3>
 - Check out a new branch based and name it to what you intend to do:
   
    - Example:
