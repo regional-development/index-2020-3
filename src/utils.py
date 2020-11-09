@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+""" 
+Модуль містить допоміжні функції для підготовки даних та проведення розрахунків. 
+"""
 import os
 import numpy as np 
 import pandas as pd 
@@ -91,12 +94,8 @@ def weighted_average(df, columns, weights, multiplier=1.0):
 def outliers(df, param, cv=1.96):
     """ Повертає рядки з аутлаєром в колонці `param`.
 
-    the standard score is the number of standard deviations 
-    by which the value of a raw score is above or below the 
-    mean value of what is being observed or measured.
-
     Відхилення є статистично значущим, якщо значення є більшим або меншим
-    за критичне значення `cv`
+    за критичне значення `cv` - це і слугує фільтром. 
     
     
     Parameters
@@ -106,7 +105,13 @@ def outliers(df, param, cv=1.96):
     param : str
         Назва параметру
     cv : float
-        Критичне значення [1.96, 2.58] для 95% та 99% відповідно
+        Критичне значення [1.96, 2.58] для 95% та 99% стат. значущості відповідно
+
+
+    Notes
+    -----
+    Розраховує `z-scores` за допомогою 
+    `scipy.stats.zscore <https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.zscore.html>`_
     """
     ss = stats.zscore(df[param], ddof=1, nan_policy="omit")
     return df.loc[abs(ss) > cv, :] 
@@ -120,34 +125,37 @@ def normalize_parameter(
     feature_range=(0, 1), 
     reverse=False
 ):
-    """ Min-max normalization. 
+    """ Імплементація min-max normalization формули.  
     
-    Нормалізує значення `array` до шкали `feature_range`, використовуючи задані 
-    -- `min_bound` та `max_bound` -- або поточні мін. та макс. значення `array`  
-    
+    Трансформує дані `array` до шкали `feature_range`, що за замовченням є [0, 1]. 
+
+    Якщо параметри `min_bound` та `max_bound` задані, функція ігнорує 
+    реальні мінімальні та максимальні значення `array`.
+
 
     Parameters
     ----------
     array : pd.Series
         Колонка, значення якої нормалізуємо
     fill_na : bool
-        NaN policy: заповнюємо порожні значення нулями (True) або ні (False)
-    min_bound, max_bound : Any (None, int, float)
-        Задані нижня та верхні межі параметрів. 
-        За замовченням - мінімальні та максимальні значення колонки. 
-        `Приклад`: якщо ми хочемо порівняти наявність генеральних планів у селах 
-        і за найкращий показник свідомо беремо 100%, але в жодній з 
-        областей такого показника немає, ми вручну встановлюємо 
-        верхню межу як 100% замість максимального значення по областях
+        NaN policy: заповнюємо порожні значення нулями (`True`) або ні (`False`)
+    min_bound: Any[None, int, float]
+        Задана нижня межа параметрів, або задане мінімальне значення колонки. 
+    max_bound: Any[None, int, float]
+        Задана верхня межа параметрів, або задане максимальне значення колонки.
     feature_range : tuple (min, max), default=(0, 1)
-        Шкала, в межах якої трансформуємо дані [мінімальне, максимальне]
+        Шкала, в межах якої трансформуємо дані: [мінімальне, максимальне]
     reverse : bool
-        Спосіб нормалізації
+        Спосіб нормалізації. Найбільше значення отримує 1 якщо `True`, 0 якщо `False`.
 
 
     Examples
     --------
     >>> array = pd.Series([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    
+    За замовченням функція трансформує `array` в шкалу [0, 1], використовуючи наявні 
+    максимальні та мінімальні значення колонки. 
+
     >>> normalize_parameter(array)
     feature_range=(0, 1); fill_na=True; array_bounds=(1, 10); normalization_bounds=(1, 10)
     0    0.000000
@@ -162,6 +170,14 @@ def normalize_parameter(
     9    1.000000
     dtype: float64
 
+    Можемо задати максимальне значення самостійно. Наприклад, якщо ми хочемо порівняти наявність генеральних планів у селах 
+    і за найкращий показник свідомо беремо 100%, але в жодній з областей такого показника немає, ми вручну встановлюємо 
+    верхню межу як 100% замість максимального значення по областях
+
+    Спрощений приклад на `array`: якщо `max_bound=15`, а реальне максимальне значення 
+    в межах колонки сягає `10`, найкращий з усіх рядків не отримує `1` (тому що 
+    порівнюється вже не відносно інших значень, а ще й відносно заданого максимального значення).
+    
     >>> normalize_parameter(array, max_bound=15)
     feature_range=(0, 1); fill_na=True; array_bounds=(1, 10); normalization_bounds=(1, 15)
     0    0.000000
@@ -175,6 +191,8 @@ def normalize_parameter(
     8    0.571429
     9    0.642857
     dtype: float64
+
+    Приклад використання іншої від [0, 1] шкали нормалізації:
 
     >>> normalize_parameter(array, feature_range=(2, 5))
     feature_range=(2, 5); fill_na=True; array_bounds=(1, 10); normalization_bounds=(1, 10)

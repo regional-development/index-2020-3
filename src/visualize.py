@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """ 
-API для візуалізацій, модифікований код Остапа з версії за 2 квартал 2020 року.
+Модуль містить допоміжні функції для візуалізації результатів оцінювання. 
 """
 import numpy as np 
 import pandas as pd
@@ -25,6 +25,7 @@ dict_labels = {
 
 
 def delete_frame(ax):
+    """ sns.despine() для matplotlib. """
     ax.spines['top'].set_color('none')
     ax.spines['bottom'].set_color('none')
     ax.spines['left'].set_color('none')
