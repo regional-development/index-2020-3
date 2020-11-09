@@ -27,6 +27,8 @@ Codebase Structure
     │
     ├── .readthedocs.yml   <- Інструкції для readthedocs.io 
     │
+    ├── CHANGELOG.rst      <- Версійність оцінювання
+    │
     ├── README.md          <- Основний README
     │
     ├── TODO.md            <- Перелік завдань

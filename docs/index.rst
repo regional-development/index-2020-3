@@ -25,7 +25,7 @@
    writings/installation.rst
    writings/CONTRIBUTING.rst
    source/src.rst
-
+   writings/CHANGELOG.rst
 
 
 Словник
