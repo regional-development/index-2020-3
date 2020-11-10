@@ -8,6 +8,7 @@ pandas
 scipy
 matplotlib
 seaborn
+pyodbc
 psycopg2
 xlrd
 openpyxl
