@@ -1,10 +1,7 @@
 import pandas as pd
 from pathlib import Path
-from src.utils import db_connect, merge_all, POPULATION_MAP
+from src.utils import db_connect, merge_all, POPULATION_MAP, PATH_INTERIM
 
-   
-ROOT = Path(__file__).resolve().parent.parent 
-FOLDER = ROOT / "interim" 
 
 LAND = (
     "18010500",
@@ -160,8 +157,7 @@ def main():
         result["Дохід без міжбюдж. трансфертів (p2_02)"] / result["Дохід без міжбюдж. трансфертів _ ПОПЕРЕДНІЙ РІК"]
     )
     
-    (FOLDER / "P2").mkdir(parents=True, exist_ok=True)
-    result.to_excel(FOLDER / "P2" / "P02_006.xlsx", index=False)
+    result.to_excel(PATH_INTERIM / "P2" / "P02_006.xlsx", index=False)
     
     
 if __name__ == "__main__":
