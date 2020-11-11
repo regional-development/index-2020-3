@@ -1,5 +1,6 @@
 import pandas as pd 
-from src.utils import db_connect, PATH_INTERIM
+from src.utils import PATH_INTERIM
+from db_utils import db_connect
 
 
 ADMIN_REGIONS = {

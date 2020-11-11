@@ -1,5 +1,6 @@
 import pandas as pd 
-from src.utils import db_connect, PATH_INTERIM
+from src.utils import PATH_INTERIM
+from db_utils import db_connect
 
 
 def readiness(timestamp=None):
@@ -80,4 +81,4 @@ def main(latest_date=None):
 
 
 if __name__ == "__main__":
-       main()
+       main(latest_date="2020-10-02")
