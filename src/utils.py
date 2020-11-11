@@ -47,14 +47,15 @@ def merge_all(data, on, return_all_regions=True):
     )
 
 
-def divide(a, b):
-    """ Повертає 0 при діленні на 0 замість `inf`. """
-    return np.divide(a, b, out=np.zeros_like(a), where=b!=0)
-
-
 def weighted_average(df, columns, weights, multiplier=1.0):
-    """ Ф-ція середнього зваженого. 
+    r""" Ф-ція середнього зваженого. 
     
+    .. math::
+
+        \frac{\sum_{} {x_i w_i}}{\sum{w_i}} \times m
+
+    де :math:`x` є `значенням`, :math:`w` є його вагою значення, :math:`m` є мультиплікатором.
+
     
     Parameters
     ----------
@@ -72,11 +73,14 @@ def weighted_average(df, columns, weights, multiplier=1.0):
 
 
 def outliers(df, param, cv=1.96):
-    """ Повертає рядки з аутлаєром в колонці `param`.
+    r""" Визначає аутлаєри колонки `param` за допомогою 
+    `scipy.stats.zscore <https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.zscore.html>`_.
 
-    Відхилення є статистично значущим, якщо значення є більшим або меншим
-    за критичне значення `cv` - це і слугує фільтром. 
-    
+    Відхилення (аутлаєр) є статистично значущим, якщо отримане значення є більшим або меншим
+    за критичне значення `cv`.
+
+    .. math::
+        z =\frac{x_i-\mu}{\sigma} 
     
     Parameters
     ----------
@@ -86,12 +90,6 @@ def outliers(df, param, cv=1.96):
         Назва параметру
     cv : float
         Критичне значення [1.96, 2.58] для 95% та 99% стат. значущості відповідно
-
-
-    Notes
-    -----
-    Розраховує `z-scores` за допомогою 
-    `scipy.stats.zscore <https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.zscore.html>`_
     """
     ss = stats.zscore(df[param], ddof=1, nan_policy="omit")
     return df.loc[abs(ss) > cv, :] 
@@ -105,9 +103,13 @@ def normalize_parameter(
     feature_range=(0, 1), 
     reverse=False
 ):
-    """ Імплементація min-max normalization формули.  
+    r""" Імплементація min-max normalization формули:
+
+    .. math::
+
+        a + \frac{(x-min(x))(b-a)}{max(x)-min(x)}
     
-    Трансформує дані `array` до шкали `feature_range`, що за замовченням є [0, 1]. 
+    де :math:`x` є `array`, :math:`a` та :math:`b` є `feature_range`, що за замовченням є [0, 1];
 
     Якщо параметри `min_bound` та `max_bound` задані, функція ігнорує 
     реальні мінімальні та максимальні значення `array`.
