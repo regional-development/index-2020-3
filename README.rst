@@ -16,8 +16,19 @@
 
 Швидкий старт
 -------------
-Відтворення віртуального середовища (детальніше в документації):
+Відтворення віртуального середовища (детальніше в `документації <https://index-2020-3.readthedocs.io/uk_UA/latest/writings/installation.html>`_):
 
-.. include:: docs/writings/installation.rst
-   :start-after: через ``venv``.
-   :end-before: Ключі доступу
+.. code-block:: console
+
+    $ git clone https://github.com/regional-development/index-2020-3.git
+    $ cd index-2020-3
+    $ python -m venv env
+    $ source env/Scripts/activate
+    (env)$ python -m pip install -U pip setuptools wheel
+    (env)$ python -m pip install -r requirements.txt
+
+Для роботи з папкою ``notebooks/``: 
+
+.. code-block:: console
+
+    (env)$ jupyter notebook
