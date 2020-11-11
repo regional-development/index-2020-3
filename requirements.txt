@@ -2,13 +2,11 @@
 -e .
 
 # external requirements
-python-dotenv
-numpy
+numpy==1.19.3
 pandas
 scipy
 matplotlib
 seaborn
 xlrd
 openpyxl
-sqlalchemy
 jupyterlab
