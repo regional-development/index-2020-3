@@ -12,7 +12,6 @@
    :maxdepth: 4
    :caption: Про індекс:
 
-   writings/intro.rst
    writings/methodology.rst
    writings/results.rst
    writings/contacts.rst
