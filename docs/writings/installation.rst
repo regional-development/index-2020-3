@@ -39,6 +39,15 @@
     MSSQL=123
     POSTGRESQL=123
 
+Після цього слід встановити `dependencies` для роботи з базами даних та запустити скрипти: 
+
+.. code-block:: console
+
+    (env)$ python -m pip install -r requirements-dev.txt
+    (env)$ python scripts/budget.py
+    (env)$ python scripts/tenders.py
+    (env)$ python scripts/vb.py
+
 
 .. seealso::
 

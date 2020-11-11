@@ -1,6 +1,7 @@
 import pandas as pd
 from pathlib import Path
-from src.utils import db_connect, merge_all, POPULATION_MAP, PATH_INTERIM
+from src.utils import merge_all, POPULATION_MAP, PATH_INTERIM
+from db_utils import db_connect
 
 
 LAND = (

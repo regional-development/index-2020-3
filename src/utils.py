@@ -2,19 +2,13 @@
 """ 
 Модуль містить допоміжні функції для підготовки даних та проведення розрахунків. 
 """
-import os
 import numpy as np 
 import pandas as pd 
 from scipy import stats
 from pathlib import Path
 from functools import reduce
-from sqlalchemy import create_engine
-from dotenv import find_dotenv, load_dotenv
 
 
-load_dotenv(find_dotenv())
-MSSQL = os.environ.get("MSSQL")
-POSTGRESQL = os.environ.get("POSTGRESQL")
 ROOT = Path(__file__).resolve().parent.parent  
 PATH_RAW = ROOT / "data" / "raw"
 PATH_INTERIM = ROOT / "data" / "interim"
@@ -23,20 +17,6 @@ POPULATION = pd.read_excel(PATH_RAW / "P99" / "population.xls", index_col=0)
 REGIONS = {"region": POPULATION.index.tolist()}
 REGIONS_MAP = POPULATION["region_id"].astype(float).to_dict()
 POPULATION_MAP = POPULATION["population"].to_dict()
-
-
-def db_connect(query, db="MSSQL"):
-    """ Зчитує таблицю з бази даних. 
-    
-    
-    Parameters
-    ----------
-    query : str
-        sql query, напр. SELECT * FROM "Budget"."Incomes";
-    """
-    _db = MSSQL if db == "MSSQL" else POSTGRESQL
-    con = create_engine(_db)
-    return pd.read_sql(query, con)
 
 
 def merge_all(data, on, return_all_regions=True):
