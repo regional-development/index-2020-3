@@ -18,6 +18,6 @@
 -------------
 Відтворення віртуального середовища (детальніше в документації):
 
-.. include:: installation.rst
+.. include:: docs/writings/installation.rst
    :start-after: через ``venv``.
    :end-before: Ключі доступу
