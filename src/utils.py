@@ -47,12 +47,12 @@ def merge_all(data, on, return_all_regions=True):
     )
 
 
-def weighted_average(df, columns, weights, multiplier=1.0):
+def weighted_average(df, columns, weights, multiplier=10):
     r""" Ф-ція середнього зваженого. 
     
     .. math::
 
-        \frac{\sum_{} {x_i w_i}}{\sum{w_i}} \times m
+        \bar{x} = \frac{\sum_{i=1}^{n} w_ix_i}{\sum_{i=1}^{n} w_i} \times m
 
     де :math:`x` є `значенням`, :math:`w` є його вагою значення, :math:`m` є мультиплікатором.
 
@@ -107,7 +107,7 @@ def normalize_parameter(
 
     .. math::
 
-        a + \frac{(x-min(x))(b-a)}{max(x)-min(x)}
+        {x}' = a + \frac{(x-min(x))(b-a)}{max(x)-min(x)}
     
     де :math:`x` є `array`, :math:`a` та :math:`b` є `feature_range`, що за замовченням є [0, 1];
 
@@ -234,7 +234,7 @@ def save_data(sources, weights, parameter, show_results=False):
         on="region"
     )
     columns = df.loc[:, df.columns.str.contains("p")].columns
-    df[parameter] = weighted_average(df, columns, weights, multiplier=10)
+    df[parameter] = weighted_average(df, columns, weights)
     df.to_csv(PATH_PROCESSED / f"{parameter}.csv", index=False)
     if show_results:
         return df
