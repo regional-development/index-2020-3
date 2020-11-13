@@ -3,7 +3,6 @@
 Модуль містить допоміжні функції для об'єднання та збереження даних. 
 """
 import pandas as pd 
-from scipy import stats
 from pathlib import Path
 from functools import reduce
 from .formula import weighted_average

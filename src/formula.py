@@ -2,7 +2,6 @@
 """ 
 Модуль містить допоміжні функції для проведення розрахунків. 
 """
-import numpy as np 
 import pandas as pd 
 from scipy import stats
 
@@ -148,7 +147,7 @@ def weighted_average(df, columns, weights, multiplier=10):
     Функція адаптова під роботу з таблицею (використовує `broadcasting`), 
     що містить окремі колонки, які необхідно порахувати; у реальному застосуванні 
     ці колонки визначаються патерном.  
-    
+
     >>> weighted_average(df=df, columns=["A", "B"], weights={"A": 1.5, "B": 2})
     0    15.714286
     1    62.857143
