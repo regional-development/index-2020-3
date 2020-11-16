@@ -19,6 +19,11 @@ REGIONS_MAP = POPULATION["region_id"].astype(float).to_dict()
 POPULATION_MAP = POPULATION["population"].to_dict()
 
 
+def divide(a, b):
+    """ Повертає 0 при діленні на 0 замість `np.inf`. """
+    return np.divide(a, b, out=np.zeros_like(a), where=b!=0)
+
+
 def merge_all(data, on, return_all_regions=True):
     """ Послідовно виконує pd.merge на масиві таблиць. 
     
