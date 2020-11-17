@@ -36,6 +36,12 @@ def merge_all(data, on, return_all_regions=True):
         Ключ для об'єднання таблиць
     return_all_regions : bool
         Чи включати відсутні області в таблицю
+        
+        
+    Returns
+    -------
+    `pd.DataFrame`
+        Об'єднана єдина таблиця
     """
     df = reduce(lambda l, r: pd.merge(l, r, on=on, how="outer"), data)
     if not return_all_regions:
@@ -56,12 +62,10 @@ def weighted_average(df, columns, weights, multiplier=10):
     r""" Ф-ція середнього зваженого. 
     
     .. math::
-
         \bar{x} = \frac{\sum_{i=1}^{n} w_ix_i}{\sum_{i=1}^{n} w_i} \times m
-
     де :math:`x` є `значенням`, :math:`w` є його вагою значення, :math:`m` є мультиплікатором.
-
     
+
     Parameters
     ----------
     df : pd.DataFrame
@@ -72,20 +76,52 @@ def weighted_average(df, columns, weights, multiplier=10):
         Словник з назвою параметру та його вагою
     multiplier : float
         Мультиплікатор результату
+
+
+    Examples
+    --------
+    >>> df = pd.DataFrame({
+        "A": [1, 4, 4, 5, 6, 7, 5, 3, 4, 5],
+        "B": [2, 8, 1, 4, 6, 2, 8, 1, 1, 1],
+    })
+
+    Функція адаптова під роботу з таблицею (використовує `broadcasting`), 
+    що містить окремі колонки, які необхідно порахувати; у реальному застосуванні 
+    ці колонки визначаються патерном.  
+    
+    >>> weighted_average(df=df, columns=["A", "B"], weights={"A": 1.5, "B": 2})
+    0    15.714286
+    1    62.857143
+    2    22.857143
+    3    44.285714
+    4    60.000000
+    5    41.428571
+    6    67.142857
+    7    18.571429
+    8    22.857143
+    9    27.142857
+    dtype: float64
+
+
+    Returns
+    -------
+    `pd.Series`
+        Колонка з розрахованим середнім зваженим
     """
     s = sum(df[col] * weights.get(col) for col in columns) / sum(weights.values())
     return s * multiplier
 
 
-def outliers(df, param, cv=1.96):
+def zscore_wrapper(df, param, cv=1.96):
     r""" Визначає аутлаєри колонки `param` за допомогою 
     `scipy.stats.zscore <https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.zscore.html>`_.
-
+    
     Відхилення (аутлаєр) є статистично значущим, якщо отримане значення є більшим або меншим
     за критичне значення `cv`.
-
+    
     .. math::
         z =\frac{x_i-\mu}{\sigma} 
+    
     
     Parameters
     ----------
@@ -95,6 +131,12 @@ def outliers(df, param, cv=1.96):
         Назва параметру
     cv : float
         Критичне значення [1.96, 2.58] для 95% та 99% стат. значущості відповідно
+    
+    
+    Returns
+    -------
+    `pd.DataFrame`
+        Таблиця з статистично значущими аутлаєрами
     """
     ss = stats.zscore(df[param], ddof=1, nan_policy="omit")
     return df.loc[abs(ss) > cv, :] 
@@ -194,6 +236,12 @@ def normalize_parameter(
     8    4.666667
     9    5.000000
     dtype: float64
+
+
+    Returns
+    -------
+    `pd.Series`
+        Колонка з нормалізованими значеннями
     """
     s = array.fillna(0) if fill_na else array
     array_min, array_max = array_bounds = s.min(), s.max()

@@ -9,6 +9,7 @@ from matplotlib import rcParams, gridspec
 from math import ceil, pi
 from .utils import ROOT
 
+
 FORMAT = "png"
 MAX_PARAMS = 10
 FIGURES = ROOT / "reports" / "figures"
@@ -33,7 +34,22 @@ def delete_frame(ax):
 
 
 def draw_spider(ax,angles,values,values_mean,cols):
-    """ """
+    """ Spider-візуалізація. 
+    
+    
+    Parameters
+    ----------
+    ax: matplotlib.axes._subplots.AxesSubplot
+        Тло візуалізації
+    angles: list[float]
+        Нахил для візулаізації
+    values: list[floats]
+        Оцінка параметрів верхнього рівня
+    values_mean: float
+        Середня оцінка параметрів верхнього рівня
+    cols: list[str]
+        Колонки параметрів верхнього рівня
+    """
     rot_angles = [0,-45,90,45,0,-45,90,45,0]
     
     ax.set_rlabel_position(0)
@@ -61,7 +77,19 @@ def draw_spider(ax,angles,values,values_mean,cols):
 
 
 def draw_multiple_spiders(df_index, cols, save=False):
-    """ """
+    """ Створює графік, що показує значення параметрів верхнього рівня для кожної з областей. 
+    Обгорта для `draw_spider`
+    
+    
+    Parameters
+    ----------
+    df_index: pd.DataFrame
+        Таблиця з розрахованим індексом
+    cols: list[str]
+        Колонки параметрів верхнього рівня
+    save: bool, defaults `False`
+        Чи слід зберігати зображення в ``reports/figures``
+    """
     rcParams['font.size'] = 7
     N = len(cols)
     angles = [n / float(N) * 2 * pi for n in range(N)]
@@ -99,7 +127,20 @@ def draw_multiple_spiders(df_index, cols, save=False):
 
 
 def draw_profile_gen(df_index, cols, reg_index, save=False):
-    """ """
+    """ Створює графік для області `reg_index` з оцінками параметрів верхнього рівня 
+        
+    
+    Parameters
+    ----------
+    df_index: pd.DataFrame
+        Таблиця з розрахованим індексом
+    cols: list[str]
+        Колонки верхнього параметрів рівня
+    reg_index: int
+        номер індексу таблиці області, яку слід візуалізувати
+    save: bool, defaults `False`
+        Чи слід зберігати зображення в ``reports/figures``
+    """
     rcParams['font.size'] = 12
     fig = plt.figure(figsize=(6,4))
     
@@ -146,7 +187,21 @@ def draw_profile_gen(df_index, cols, reg_index, save=False):
     
 
 def draw_profile_det(df_index,cols,reg_index, save=False):
-    """ """    
+    """ Створює графік для області `reg_index` з оцінками параметрів нижнього рівня 
+
+        
+    Parameters
+    ----------
+    df_index: pd.DataFrame
+        Таблиця з розрахованим індексом
+    cols: list[str]
+        Колонки нижнього параметрів рівня
+    reg_index: int
+        номер індексу таблиці області, яку слід візуалізувати
+    save: bool, defaults `False`
+        Чи слід зберігати зображення в ``reports/figures``
+    
+    """   
     rcParams['font.size'] = 12
 
     x_labels = [dict_labels[col] for col in cols]
@@ -205,7 +260,18 @@ def draw_profile_det(df_index,cols,reg_index, save=False):
 
 
 def draw_rankings(df_index, kvartal="III", save=False):
-    """ """
+    """ Створює відсортовани йбарчарт з остаточними оцінками.  
+        
+
+    Parameters
+    ----------
+    df_index: pd.DataFrame
+        Таблиця з розрахованим індексом
+    kvartal: str
+        Номер кварталу для винесення в заголовок візуалізації
+    save: bool, defaults `False`
+        Чи слід зберігати зображення в ``reports/figures``
+    """
     fig = plt.figure(figsize=(22,10))
     ax = plt.subplot(111)
     delete_frame(ax)
@@ -233,7 +299,18 @@ def draw_rankings(df_index, kvartal="III", save=False):
 
 
 def draw_boxplot(ax, data, numbers):    
-    """ Boxplot with points. """
+    """ Створює boxplot
+    
+    
+    Parameters
+    ----------
+    ax: matplotlib.axes._subplots.AxesSubplot
+        Тло візуалізації
+    data: pd.DataFrame
+        Таблиця з розрахованим індексом
+    numbers: list
+        Перелік колонок, які слід ігнорувати
+    """
     ax.boxplot(data.values, vert=False, sym='')
     for index, col in enumerate(data, start=1):
         if col not in numbers:
@@ -244,7 +321,21 @@ def draw_boxplot(ax, data, numbers):
 
 
 def draw_boxplot_dist(df_index, cols, save=False):
-    """ """
+    """ Створює зображення з розподілом показників нижнього рівня.
+    Обгортка для `draw_boxplot`
+        
+    
+    Parameters
+    ----------
+    df_index: pd.DataFrame
+        asd
+    cols: list[str]
+        asd
+    reg_index: int
+        asd
+    save: bool, defaults `False`
+        asd
+    """   
     
     numbers = [*range(10)]
     x_labeles = [dict_labels[col] for col in cols]
@@ -286,14 +377,3 @@ def draw_boxplot_dist(df_index, cols, save=False):
         )
     plt.show()
     plt.close()
-
-
-# def example(path):
-#     df_index = pd.read_csv(path)
-#     cols = df_index.loc[:,df_index.columns.str.contains('P')].columns
-
-#     draw_multiple_spiders(df_index, cols, save=True)
-#     draw_profile_gen(df_index, cols, 0, save=True)
-#     draw_profile_det(df_index, cols, 0, save=True)
-#     draw_boxplot_dist(df_index, cols, save=True)
-#     draw_rankings(df_index, save=True)
