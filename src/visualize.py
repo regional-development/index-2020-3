@@ -9,7 +9,7 @@ from matplotlib import rcParams, gridspec
 from math import ceil, pi
 from .utils import ROOT
 
-
+FORMAT = "png"
 MAX_PARAMS = 10
 FIGURES = ROOT / "reports" / "figures"
 dict_labels = {
@@ -92,13 +92,13 @@ def draw_multiple_spiders(df_index, cols, save=False):
     plt.subplots_adjust(wspace = 0.45, hspace = 0.45)
     if save:
         plt.savefig(
-            FIGURES / '00_index_gen_v3.jpeg', 
+            FIGURES / f'00_index_gen_v3.{FORMAT}', 
             dpi=300, bbox_inches='tight', 
             pad_inches=0.3, transparent=False
         )
 
 
-def draw_profile_gen(df, cols, reg_index, save=False):
+def draw_profile_gen(df_index, cols, reg_index, save=False):
     """ """
     rcParams['font.size'] = 12
     fig = plt.figure(figsize=(6,4))
@@ -136,7 +136,7 @@ def draw_profile_gen(df, cols, reg_index, save=False):
 
     if save:
         plt.savefig(
-            FIGURES / f'01_region_profile_gen_{reg_index}.jpeg',
+            FIGURES / f'01_region_profile_gen_{reg_index}.{FORMAT}',
             dpi=300, bbox_inches='tight', pad_inches=0.3,
             transparent = False
         )
@@ -145,7 +145,7 @@ def draw_profile_gen(df, cols, reg_index, save=False):
     plt.close()
     
 
-def draw_profile_det(df,cols,reg_index, save=False):
+def draw_profile_det(df_index,cols,reg_index, save=False):
     """ """    
     rcParams['font.size'] = 12
 
@@ -196,7 +196,7 @@ def draw_profile_det(df,cols,reg_index, save=False):
     plt.subplots_adjust(top=0.89, wspace=0.3, hspace=0.3)
     if save:
         plt.savefig(
-            FIGURES / f'02_region_profile_det_{reg_index}.jpeg',
+            FIGURES / f'02_region_profile_det_{reg_index}.{FORMAT}',
             dpi=300, bbox_inches='tight', pad_inches=0.3,
             transparent = False
         )
@@ -224,7 +224,7 @@ def draw_rankings(df_index, kvartal="III", save=False):
     plt.subplots_adjust(top=0.96)
     if save:
         plt.savefig(
-            FIGURES / '00_index_ranking_v3.jpeg',
+            FIGURES / f'00_index_ranking_v3.{FORMAT}',
             dpi=300, bbox_inches='tight', pad_inches=0.3,
             transparent = False
         )
@@ -243,7 +243,7 @@ def draw_boxplot(ax, data, numbers):
             ax.scatter(arr.values, y_noise, alpha=0.5, color='#007f86', s=10)
 
 
-def draw_boxplot_dist(df, cols, save=False):
+def draw_boxplot_dist(df_index, cols, save=False):
     """ """
     
     numbers = [*range(10)]
@@ -280,7 +280,7 @@ def draw_boxplot_dist(df, cols, save=False):
     plt.subplots_adjust(top=0.89, wspace=0.3, hspace=0.3)
     if save:
         plt.savefig(
-            FIGURES / '01_params_distr.jpeg',
+            FIGURES / f'01_params_dist.{FORMAT}',
             dpi=300, bbox_inches='tight', pad_inches=0.3,
             transparent = False
         )
