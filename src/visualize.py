@@ -260,7 +260,7 @@ def draw_profile_det(df_index,cols,reg_index, save=False):
 
 
 def draw_rankings(df_index, kvartal="III", save=False):
-    """ Створює відсортовани йбарчарт з остаточними оцінками.  
+    """ Створює відсортований барчарт з остаточними оцінками.  
         
 
     Parameters
@@ -291,6 +291,78 @@ def draw_rankings(df_index, kvartal="III", save=False):
     if save:
         plt.savefig(
             FIGURES / f'00_index_ranking_v3.{FORMAT}',
+            dpi=300, bbox_inches='tight', pad_inches=0.3,
+            transparent = False
+        )
+    plt.show()
+    plt.close()
+
+
+def dynamic_rankings(df, value, value_colour, change, change_colour, save=False):
+    """ Створює відсортований барчарт з абсолютною оцінкою та показує 
+    динаміку відносно минулого кварталу.  
+        
+
+    Parameters
+    ----------
+    df: pd.DataFrame
+        Таблиця з розрахованим індексом
+    value: pd.Series
+        Колонка з абсолютною оцінкою за квартал
+    value_color : pd.Series
+        Колонка з кольорами для основного барчарту
+    change : pd.Series
+        Колонка з різницею абсолютної оцінки відносно минулого кварталу
+    change_colour: pd.Series
+        Колонка з кольорами для точкової діаграми
+    save: bool, defaults `False`
+        Чи слід зберігати зображення в ``reports/figures``
+    """
+    fig, (ax1, ax2) = plt.subplots(
+        nrows=1, ncols=2,
+        figsize=(22, 10),
+        sharey=True,
+        gridspec_kw={
+            "wspace": 0,
+            "width_ratios": [3, 1],
+        }
+    )
+    
+    ax1.spines['top'].set_color('none')
+    ax1.spines['left'].set_color('none')
+    ax1.spines['right'].set_color('none')
+    
+    
+    # rankings
+    ax1.barh(df["region"], df[value], color=df[value_colour])
+    ax1.barh(df["region"], df[value].max() - df[value], left=df[value], color="gray", alpha=0.1)
+    for idx in df.index:
+        ax1.annotate(
+            df.loc[idx, value].round(2),
+            xy=(df.loc[idx, value]-2.2, df.loc[idx, "region"]),
+            c="white", va="center", weight="bold"
+        )
+    
+    # dynamics
+    ax2.axvline(0, color="gray", alpha=0.5)
+    ax2.hlines(df["region"], 0, df[change], color="gray", alpha=0.5)
+    ax2.scatter(df[change], df["region"], color=df[change_colour])
+    for idx in df.index:
+        data = df.loc[idx, change]
+        xpos = data - 0.65 if data < 0 else data + 0.1
+        ax2.annotate(
+            data.round(2), xy=(xpos, df.loc[idx, "region"])
+        )
+        
+    # axes
+    ax2.set_xlim(-2.6, 2.6)
+    ax2.set_title("Зміна абсолютної оцінки відносно минулого кварталу", loc="right")    
+    ax2.axes.set_axis_off()
+    
+    fig.suptitle("Індекс оцінки ОДА за 3 квартал 2020 року", fontsize=22, weight='bold', alpha=0.95)
+    if save: 
+        plt.savefig(
+            FIGURES / "ranking_with_dynamics_sample.jpeg",
             dpi=300, bbox_inches='tight', pad_inches=0.3,
             transparent = False
         )
