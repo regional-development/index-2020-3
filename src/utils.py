@@ -19,7 +19,7 @@ REGIONS_MAP = POPULATION["region_id"].astype(float).to_dict()
 POPULATION_MAP = POPULATION["population"].to_dict()
 
 
-def divide(a, b):
+def _divide(a, b):
     """ Повертає 0 при діленні на 0 замість `np.inf`. """
     return np.divide(a, b, out=np.zeros_like(a), where=b!=0)
 
