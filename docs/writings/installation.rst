@@ -1,15 +1,14 @@
 Відтворення робочого середовища
 ===============================
 
-.. image:: https://mybinder.org/badge_logo.svg
-        :target: https://mybinder.org/v2/gh/regional-development/index-2020-3/main
+.. .. image:: https://mybinder.org/badge_logo.svg
+..         :target: https://mybinder.org/v2/gh/regional-development/index-2020-3/main
 
 
 Віртуальне середовище
 ---------------------
 
-Ці інструкції допоможуть відтворити віртуальне середовище: 
-через ``binder`` в хмарі або на локальному комп'ютері через ``venv``.
+Ці інструкції допоможуть відтворити віртуальне середовище на локальному комп'ютері через ``venv``.
 
 .. code-block:: console
 

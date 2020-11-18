@@ -1,7 +1,7 @@
 .. _codebase:
 
-Codebase Structure
-==================
+Структура проєкту
+=================
 
 .. code-block:: console
 

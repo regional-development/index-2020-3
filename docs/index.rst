@@ -38,14 +38,15 @@
    :caption: Технічна документація (АРІ):
    
    writings/installation.rst
+   writings/CODEBASE_STRUCTURE.rst
    writings/CONTRIBUTING.rst
    source/src.rst
    writings/CHANGELOG.rst
 
 
-Словник
-==================
+.. Словник
+.. ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. * :ref:`genindex`
+.. * :ref:`modindex`
+.. * :ref:`search`
