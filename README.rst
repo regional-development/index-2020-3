@@ -9,7 +9,7 @@
 -------
 
 * Презентація: 
-* Таблиця з параметрами:
+* Таблиця з параметрами: https://docs.google.com/spreadsheets/d/1Pisy6EX4fkUnlm9rAqLsD_ycwWiUC9p-u3ZpKZe6oAs/edit?usp=sharing 
 * GitHub: https://github.com/regional-development/index-2020-3
 * Документація: https://index-2020-3.readthedocs.io
 
