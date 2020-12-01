@@ -24,6 +24,7 @@ project = 'index-2020-3'
 copyright = '2020'
 
 release = '0.5'
+master_doc = 'index'
 
 # -- General configuration ---------------------------------------------------
 
