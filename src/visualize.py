@@ -318,6 +318,13 @@ def dynamic_rankings(df, value, value_colour, change, change_colour, save=False)
     save: bool, defaults `False`
         Чи слід зберігати зображення в ``reports/figures``
     """
+    OFFSETS = {
+        "min": 2.3,
+        "max": 0.3,
+        "xlim_min": -10,
+        "xlim_max": 10 
+    }
+
     fig, (ax1, ax2) = plt.subplots(
         nrows=1, ncols=2,
         figsize=(22, 10),
@@ -349,20 +356,21 @@ def dynamic_rankings(df, value, value_colour, change, change_colour, save=False)
     ax2.scatter(df[change], df["region"], color=df[change_colour])
     for idx in df.index:
         data = df.loc[idx, change]
-        xpos = data - 0.65 if data < 0 else data + 0.1
+        xpos = data - OFFSETS.get("min") if data < 0 else data + OFFSETS.get("max")
         ax2.annotate(
             data.round(2), xy=(xpos, df.loc[idx, "region"])
         )
-        
+
     # axes
-    ax2.set_xlim(-2.6, 2.6)
-    ax2.set_title("Зміна абсолютної оцінки відносно минулого кварталу", loc="right")    
+    ax2.set_xlim(OFFSETS.get("xlim_min"), OFFSETS.get("xlim_max"))
+    ax1.set_title("Абсолютна оцінка області за сукупністю показників", loc="left", style='italic')  
+    ax2.set_title("Зміна абсолютної оцінки відносно минулого кварталу", loc="right", style='italic')    
     ax2.axes.set_axis_off()
     
     fig.suptitle("Індекс оцінки ОДА за 3 квартал 2020 року", fontsize=22, weight='bold', alpha=0.95)
     if save: 
         plt.savefig(
-            FIGURES / "ranking_with_dynamics_sample.jpeg",
+            FIGURES / "ranking_with_dynamics.jpeg",
             dpi=300, bbox_inches='tight', pad_inches=0.3,
             transparent = False
         )
