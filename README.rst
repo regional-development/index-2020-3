@@ -8,8 +8,8 @@
 Ресурси
 -------
 
-* Презентація: 
-* Таблиця з параметрами: https://docs.google.com/spreadsheets/d/1Pisy6EX4fkUnlm9rAqLsD_ycwWiUC9p-u3ZpKZe6oAs/edit?usp=sharing 
+* Презентація: https://docs.google.com/presentation/d/18VXxDi2Z45lT3KPSkEA3XLnS7TH0klkU5PASCOe_sYM/edit?usp=sharing
+* Таблиця з параметрами: https://docs.google.com/spreadsheets/d/1-ZB0NWIhsxhFps4o3Hzej2gZSA_GFTQ-dJ1f0WhqGbw/edit?usp=sharing
 * GitHub: https://github.com/regional-development/index-2020-3
 * Документація: https://index-2020-3.readthedocs.io
 
