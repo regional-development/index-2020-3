@@ -71,7 +71,5 @@
     ├── requirements-dev.txt    <- Файл для відтворення віртуального середовища, 
     │                              робота з базами даних
     │
-    ├── runtime.txt             <- Версія python для mybinder.org 
-    │
     └── setup.py                <- Setuptools скрипт, що встановлює src/ як локальну бібліотеку
    
