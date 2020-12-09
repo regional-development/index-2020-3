@@ -2,3 +2,5 @@ python-dotenv
 sqlalchemy
 pyodbc
 psycopg2
+black
+flake8
