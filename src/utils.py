@@ -2,14 +2,14 @@
 """ 
 Модуль містить допоміжні функції для підготовки даних та проведення розрахунків. 
 """
-import numpy as np 
-import pandas as pd 
+import numpy as np
+import pandas as pd
 from scipy import stats
 from pathlib import Path
 from functools import reduce
 
 
-ROOT = Path(__file__).resolve().parent.parent  
+ROOT = Path(__file__).resolve().parent.parent
 PATH_RAW = ROOT / "data" / "raw"
 PATH_INTERIM = ROOT / "data" / "interim"
 PATH_PROCESSED = ROOT / "data" / "processed"
@@ -21,13 +21,13 @@ POPULATION_MAP = POPULATION["population"].to_dict()
 
 def _divide(a, b):
     """ Повертає 0 при діленні на 0 замість `np.inf`. """
-    return np.divide(a, b, out=np.zeros_like(a), where=b!=0)
+    return np.divide(a, b, out=np.zeros_like(a), where=b != 0)
 
 
 def merge_all(data, on, return_all_regions=True):
-    """ Послідовно виконує pd.merge на масиві таблиць. 
-    
-    
+    """Послідовно виконує pd.merge на масиві таблиць.
+
+
     Parameters
     ----------
     data: list[pd.DataFrame]
@@ -36,8 +36,8 @@ def merge_all(data, on, return_all_regions=True):
         Ключ для об'єднання таблиць
     return_all_regions : bool
         Чи включати відсутні області в таблицю
-        
-        
+
+
     Returns
     -------
     `pd.DataFrame`
@@ -49,8 +49,7 @@ def merge_all(data, on, return_all_regions=True):
 
     all_regions = df.append(pd.DataFrame(REGIONS))
     return (
-        all_regions
-        .assign(order=all_regions["region"].map(REGIONS_MAP))
+        all_regions.assign(order=all_regions["region"].map(REGIONS_MAP))
         .drop_duplicates("region")
         .sort_values("order")
         .drop("order", axis=1)
@@ -59,12 +58,12 @@ def merge_all(data, on, return_all_regions=True):
 
 
 def weighted_average(df, columns, weights, multiplier=10):
-    r""" Ф-ція середнього зваженого. 
-    
+    r"""Ф-ція середнього зваженого.
+
     .. math::
         \bar{x} = \frac{\sum_{i=1}^{n} w_ix_i}{\sum_{i=1}^{n} w_i} \times m
     де :math:`x` є `значенням`, :math:`w` є його вагою значення, :math:`m` є мультиплікатором.
-    
+
 
     Parameters
     ----------
@@ -85,10 +84,10 @@ def weighted_average(df, columns, weights, multiplier=10):
         "B": [2, 8, 1, 4, 6, 2, 8, 1, 1, 1],
     })
 
-    Функція адаптова під роботу з таблицею (використовує `broadcasting`), 
-    що містить окремі колонки, які необхідно порахувати; у реальному застосуванні 
-    ці колонки визначаються патерном.  
-    
+    Функція адаптова під роботу з таблицею (використовує `broadcasting`),
+    що містить окремі колонки, які необхідно порахувати; у реальному застосуванні
+    ці колонки визначаються патерном.
+
     >>> weighted_average(df=df, columns=["A", "B"], weights={"A": 1.5, "B": 2})
     0    15.714286
     1    62.857143
@@ -113,16 +112,16 @@ def weighted_average(df, columns, weights, multiplier=10):
 
 
 def zscore_wrapper(df, param, cv=1.96):
-    r""" Визначає аутлаєри колонки `param` за допомогою 
+    r"""Визначає аутлаєри колонки `param` за допомогою
     `scipy.stats.zscore <https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.zscore.html>`_.
-    
+
     Відхилення (аутлаєр) є статистично значущим, якщо отримане значення є більшим або меншим
     за критичне значення `cv`.
-    
+
     .. math::
-        z =\frac{x_i-\mu}{\sigma} 
-    
-    
+        z =\frac{x_i-\mu}{\sigma}
+
+
     Parameters
     ----------
     df : pd.DataFrame
@@ -131,34 +130,34 @@ def zscore_wrapper(df, param, cv=1.96):
         Назва параметру
     cv : float
         Критичне значення [1.96, 2.58] для 95% та 99% стат. значущості відповідно
-    
-    
+
+
     Returns
     -------
     `pd.DataFrame`
         Таблиця з статистично значущими аутлаєрами
     """
     ss = stats.zscore(df[param], ddof=1, nan_policy="omit")
-    return df.loc[abs(ss) > cv, :] 
+    return df.loc[abs(ss) > cv, :]
 
 
 def normalize_parameter(
-    array, 
-    fill_na=True, 
-    min_bound=None, 
+    array,
+    fill_na=True,
+    min_bound=None,
     max_bound=None,
-    feature_range=(0, 1), 
-    reverse=False
+    feature_range=(0, 1),
+    reverse=False,
 ):
-    r""" Імплементація min-max normalization формули:
+    r"""Імплементація min-max normalization формули:
 
     .. math::
 
         {x}' = a + \frac{(x-min(x))(b-a)}{max(x)-min(x)}
-    
+
     де :math:`x` є `array`, :math:`a` та :math:`b` є `feature_range`, що за замовченням є [0, 1];
 
-    Якщо параметри `min_bound` та `max_bound` задані, функція ігнорує 
+    Якщо параметри `min_bound` та `max_bound` задані, функція ігнорує
     реальні мінімальні та максимальні значення `array`.
 
 
@@ -169,7 +168,7 @@ def normalize_parameter(
     fill_na : bool
         NaN policy: заповнюємо порожні значення нулями (`True`) або ні (`False`)
     min_bound: Any[None, int, float]
-        Задана нижня межа параметрів, або задане мінімальне значення колонки. 
+        Задана нижня межа параметрів, або задане мінімальне значення колонки.
     max_bound: Any[None, int, float]
         Задана верхня межа параметрів, або задане максимальне значення колонки.
     feature_range : tuple (min, max), default=(0, 1)
@@ -181,9 +180,9 @@ def normalize_parameter(
     Examples
     --------
     >>> array = pd.Series([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-    
-    За замовченням функція трансформує `array` в шкалу [0, 1], використовуючи наявні 
-    максимальні та мінімальні значення колонки. 
+
+    За замовченням функція трансформує `array` в шкалу [0, 1], використовуючи наявні
+    максимальні та мінімальні значення колонки.
 
     >>> normalize_parameter(array)
     feature_range=(0, 1); fill_na=True; array_bounds=(1, 10); normalization_bounds=(1, 10)
@@ -199,14 +198,14 @@ def normalize_parameter(
     9    1.000000
     dtype: float64
 
-    Можемо задати максимальне значення самостійно. Наприклад, якщо ми хочемо порівняти наявність генеральних планів у селах 
-    і за найкращий показник свідомо беремо 100%, але в жодній з областей такого показника немає, ми вручну встановлюємо 
+    Можемо задати максимальне значення самостійно. Наприклад, якщо ми хочемо порівняти наявність генеральних планів у селах
+    і за найкращий показник свідомо беремо 100%, але в жодній з областей такого показника немає, ми вручну встановлюємо
     верхню межу як 100% замість максимального значення по областях
 
-    Спрощений приклад на `array`: якщо `max_bound=15`, а реальне максимальне значення 
-    в межах колонки сягає `10`, найкращий з усіх рядків не отримує `1` (тому що 
+    Спрощений приклад на `array`: якщо `max_bound=15`, а реальне максимальне значення
+    в межах колонки сягає `10`, найкращий з усіх рядків не отримує `1` (тому що
     порівнюється вже не відносно інших значень, а ще й відносно заданого максимального значення).
-    
+
     >>> normalize_parameter(array, max_bound=15)
     feature_range=(0, 1); fill_na=True; array_bounds=(1, 10); normalization_bounds=(1, 15)
     0    0.000000
@@ -251,18 +250,17 @@ def normalize_parameter(
         max_bound = array_max
     if reverse:
         min_bound, max_bound = max_bound, min_bound
-        
+
     normalization_bounds = (min_bound, max_bound)
     feature_min, feature_max = feature_range
     print(f"{feature_range=}; {fill_na=}; {array_bounds=}; {normalization_bounds=}, {reverse=}")
     return feature_min + ((s - min_bound) * (feature_max - feature_min) / (max_bound - min_bound))
 
 
-
 def save_data(sources, weights, parameter, show_results=False):
-    """ Розраховує оцінку галузевого параметру 
-    
-    
+    """Розраховує оцінку галузевого параметру
+
+
     Parameters
     ----------
     sources: list[pd.DataFrame]
@@ -270,21 +268,21 @@ def save_data(sources, weights, parameter, show_results=False):
     weights: dict[str, float]
         Словник з назвою параметру та його вагою
     parameter : str
-        Галузевий параметр (параметр верхнього рівня): 
+        Галузевий параметр (параметр верхнього рівня):
         [P1, P2, P3, P4, P5, P6, P7, P8]
     """
     _re_raw = "region|p\d{1}_\d{2}_raw$"
     _re_norm = "region|p\d{1}_\d{2}$"
-    
+
     df_raw = merge_all(
         data=[df.loc[:, df.columns.str.contains(_re_raw)] for df in sources],
-        on="region"
+        on="region",
     )
     df_raw.to_csv(PATH_PROCESSED / f"{parameter}_raw.csv", index=False)
 
     df = merge_all(
         data=[df.loc[:, df.columns.str.contains(_re_norm)] for df in sources],
-        on="region"
+        on="region",
     )
     columns = df.loc[:, df.columns.str.contains("p")].columns
     df[parameter] = weighted_average(df, columns, weights)

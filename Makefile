@@ -17,3 +17,9 @@ clean-pyc:
 
 clean-jupyter:
 	find . -name '*.ipynb_checkpoints' -exec rm -rf {} +
+
+lint: format 
+	flake8 src
+
+format: 
+	black src
