@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 from src.utils import PATH_INTERIM
 from db_utils import db_connect
 
@@ -20,7 +20,7 @@ LEFT JOIN "VB"."dbo_ReadinessLevelHistory"
        ON "Dim_Objects"."ID" = "dbo_ReadinessLevelHistory"."ObjectID"
  GROUP BY "Dim_Regions"."ShortRegionName", "dbo_ReadinessLevelHistory"."TimeStampUpdate"
  ORDER BY "Dim_Regions"."ShortRegionName", "dbo_ReadinessLevelHistory"."TimeStampUpdate";"""
-     
+
     data = db_connect(q, db="PostgreSQL")
     if timestamp is not None:
         mask = data["TimeStampUpdate"].eq(timestamp)
@@ -52,16 +52,19 @@ LEFT JOIN "VB"."Dim_FinancingTypes"
       AND "dbo_FinancingAll"."FinancingTypeID" = 18
  GROUP BY "Dim_Regions"."ShortRegionName", "Dim_FinancingStage"."Name", "dbo_FinancingAll"."TimeStampUpdate"
  ORDER BY "Dim_Regions"."ShortRegionName", "Dim_FinancingStage"."Name", "dbo_FinancingAll"."TimeStampUpdate";"""
-    
+
     data = db_connect(q, db="PostgreSQL")
     df = (
-        data
-        .pivot(index=["region", "TimeStampUpdate"], columns="Тип фінансування", values="Обсяг")
+        data.pivot(
+            index=["region", "TimeStampUpdate"],
+            columns="Тип фінансування",
+            values="Обсяг",
+        )
         .fillna(0)
         .reset_index()
     )
     df["p4_08_raw"] = df["Касові видатки"] / df["Профінансовано"] * 100
-    
+
     if timestamp is not None:
         mask = df["TimeStampUpdate"].eq(timestamp)
         return df.loc[mask]
@@ -75,10 +78,10 @@ def main(latest_date=None):
     else:
         df1, df2 = allocation(), readiness()
     df = pd.merge(df1, df2, how="outer", on=["region", "TimeStampUpdate"])
-    
+
     (PATH_INTERIM / "P4").mkdir(parents=True, exist_ok=True)
     df.to_excel(PATH_INTERIM / "P4" / "P04_009.xlsx", index=False)
 
 
 if __name__ == "__main__":
-       main(latest_date="2020-10-02")
+    main(latest_date="2020-10-02")

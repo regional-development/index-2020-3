@@ -1,5 +1,5 @@
-import os 
-import pandas as pd 
+import os
+import pandas as pd
 from sqlalchemy import create_engine
 from dotenv import find_dotenv, load_dotenv
 
@@ -10,9 +10,9 @@ POSTGRESQL = os.environ.get("POSTGRESQL")
 
 
 def db_connect(query, db="MSSQL"):
-    """ Зчитує таблицю з бази даних. 
-    
-    
+    """Зчитує таблицю з бази даних.
+
+
     Parameters
     ----------
     query : str
