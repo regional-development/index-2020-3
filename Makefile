@@ -19,7 +19,7 @@ clean-jupyter:
 	find . -name '*.ipynb_checkpoints' -exec rm -rf {} +
 
 lint: format 
-	flake8 src
+	flake8 --ignore=E501,W291,W605 ./src
 
 format: 
-	black src
+	black ./src
