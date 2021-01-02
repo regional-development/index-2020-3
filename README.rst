@@ -22,16 +22,10 @@
 
     $ git clone https://github.com/regional-development/index-2020-3.git
     $ cd index-2020-3
-    $ python -m venv env
-    $ source env/Scripts/activate
-    (env)$ python -m pip install -U pip setuptools wheel
-    (env)$ python -m pip install -r requirements.txt
-
-Для роботи з папкою ``notebooks/``: 
-
-.. code-block:: console
-
-    (env)$ jupyter notebook
+    $ python3 -m venv env
+    $ . env/bin/activate
+    (env)$ pip install -U pip setuptools wheel
+    (env)$ pip install -r requirements.txt
 
 
 Структура репозиторію

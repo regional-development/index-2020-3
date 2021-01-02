@@ -10,16 +10,26 @@
 
 Ці інструкції допоможуть відтворити віртуальне середовище на локальному комп'ютері через ``venv``.
 
+Код нижче -- це команди в терміналі, які слід виконати, аби створити локальну копію репозиторію у себе на комп'ютері 
+
 .. code-block:: console
 
+    # копіює репозиторій в нову папку - index-2020-3
     $ git clone https://github.com/regional-development/index-2020-3.git
+    # переходимо в нову папку
     $ cd index-2020-3
-    $ python -m venv env
-    $ source env/Scripts/activate
-    (env)$ python -m pip install -U pip setuptools wheel
-    (env)$ python -m pip install -r requirements.txt
+    # створюємо віртуальне середовище `env` для `python3` - лише перший раз
+    $ python3 -m venv env
+    # активуємо віртуальне середовище - кожного разу
+    # linux / macOS:
+    $ . env/bin/activate
+    # windows:
+    $ . env/Scripts/activate
+    # встановлюємо бібліотеки до віртуального середовища - лише перший раз
+    (env)$ pip install -U pip setuptools wheel
+    (env)$ pip install -r requirements.txt
 
-Для роботи з папкою ``notebooks/``: 
+Для роботи з папкою ``notebooks/``, в якій містяться інтерактивні ноутбуки, слід виконати таку команду: 
 
 .. code-block:: console
 
@@ -35,6 +45,10 @@
 
 .. code-block:: console
 
+    # створює .env файл     
+    touch .env
+
+    # вміст .env файлу, де замість `123` слід підставити ключі доступу
     MSSQL=123
     POSTGRESQL=123
 
@@ -42,10 +56,34 @@
 
 .. code-block:: console
 
-    (env)$ python -m pip install -r requirements-dev.txt
+    (env)$ pip install -r requirements-dev.txt
     (env)$ python scripts/budget.py
     (env)$ python scripts/tenders.py
     (env)$ python scripts/vb.py
+
+
+Покращення документації
+-----------------------
+
+Сайт з документацією оновлюється автоматично з кожною внесеною зміною (`commit`) до репозиторію на `github`. 
+
+Сам текст написаний у форматі ``.rst`` і розташований в ``docs/writings``. Якщо є потреба доповнити документацію і отримати попередній вигляд сайту (`preview`), можна збудувати сайт локально. 
+
+Для цього слід встановити додаткові бібліотеки (в основі -- ``Sphinx``) та запустити скрипт:
+
+.. code-block:: console
+
+    (env)$ pip install -r docs/requirements.txt # встановлюється один раз
+    (env)$ make html # запускається щоразу, коли слід збудувати сайт
+
+
+Переглянути згенерований сайт можна в папці ``docs/_build``. 
+
+Якщо `make` не працює -- наприклад, на віндовсі з цим можуть виникати проблеми, -- можна натомість прописати повну команду самостійно (як зазначено в ``docs/README.rst``):
+
+.. code-block:: console
+
+    (env)$ sphinx-build -b html docs/ docs/_build
 
 
 .. seealso::
