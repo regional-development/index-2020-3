@@ -4,7 +4,7 @@
 # external requirements
 numpy==1.19.3 #1.19.4 fails on windows
 pandas==1.2.0
-scipy==1.6.0
+scipy==1.6.1
 matplotlib==3.3.3
 xlrd==1.2.0
 openpyxl==3.0.5
