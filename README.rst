@@ -5,10 +5,17 @@
         :target: https://index-2020-3.readthedocs.io/uk_UA/latest/?badge=latest
         :alt: Documentation Status
 
+Увага
+-----
+Оцінювання було припиненим, тож репозиторій слугує радше шаблоном/основною для
+подальших аналізів, якщо такі будуть кимось проводитись. 
+
+У зв'язку з цим, репозиторій заархівовано. 
+
+
 Ресурси
 -------
 
-* Презентація: https://docs.google.com/presentation/d/18VXxDi2Z45lT3KPSkEA3XLnS7TH0klkU5PASCOe_sYM/edit?usp=sharing
 * Таблиця з параметрами: https://docs.google.com/spreadsheets/d/1-ZB0NWIhsxhFps4o3Hzej2gZSA_GFTQ-dJ1f0WhqGbw/edit?usp=sharing
 * GitHub: https://github.com/regional-development/index-2020-3
 * Документація: https://index-2020-3.readthedocs.io
